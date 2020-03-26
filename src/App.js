@@ -53,7 +53,7 @@ class App extends Component {
 
     let key = '39ff9355af7fb6c4e1f585a76ac2282d';
 
-    axios.get(`http://api.openweathermap.org/data/2.5/forecast?zip=${this.state.zip}&appid=${key}&units=${this.state.degrees}`)
+    axios.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?zip=${this.state.zip}&appid=${key}&units=${this.state.degrees}`)
       .then(result => {
         let weather7Days = []; 
         let city = result.data.city.name;
