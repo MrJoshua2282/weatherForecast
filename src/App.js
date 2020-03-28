@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import Spinner from './Spinner';
 
 import clearDay from './assets/img/day_clear.svg';
 import partialCloudyDay from './assets/img/day_partial_cloud.svg';
@@ -13,7 +14,6 @@ import nightThunder from './assets/img/night_half_moon_rain_thunder.svg';
 import nightRain from './assets/img/night_half_moon_rain.svg';
 import overcast from './assets/img/overcast.svg';
 import snow from './assets/img/snow.svg';
-
 
 const icons = {
   '01d': clearDay,
@@ -44,10 +44,11 @@ class App extends Component {
     city: '',
     degrees: 'imperial',
     isF: true,
-
+    isLoading: false
   }
 
   getData = () => {
+    this.setState({isLoading: true});
     //5 day forcast
     //`http://api.openweathermap.org/data/2.5/forecast?zip={zip code},{country code}&appid={your api key}`
 
@@ -58,18 +59,15 @@ class App extends Component {
         let weather7Days = []; 
         let city = result.data.city.name;
         let location = city;
-        // let todayArr = [];
-        // result.data.list.map((cur, i) => {
-        //   if (i === num) {todayArr.push(cur)}
-        // });
 
         result.data.list.map((cur, i) => {
           if (i % 8 === 0) {weather7Days.push(cur);
           }
         });
-        this.setState({ weatherArr: weather7Days, city: location});
+        this.setState({ weatherArr: weather7Days, city: location, isLoading: false});
       }).catch(error => {
         // console.log(error);
+        this.setState({isLoading: false});
       })
   }
 
@@ -159,12 +157,22 @@ class App extends Component {
         );
       };
     });
-    return (
-      <div className="App">
-         {today}
+
+    let loader = <Spinner />;
+
+    if (!this.state.isLoading) {
+      loader = (
+        <div className="App">
+           {today}
         <section className='bottom'>
         {nextDays}
        </section>
+        </div>
+      );
+    }
+    return (
+      <div >
+        {loader}
       </div>
     );
   }
