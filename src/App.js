@@ -59,71 +59,72 @@ class App extends Component {
         let weather7Days = [];
         let city = result.data.city.name;
         let location = city;
+        let favicon = document.querySelector('#forecast');
+        console.log(result.data.list[0].weather[0].icon);
+        switch (result.data.list[0].weather[0].icon) {
+          case '01d':
+            favicon.href = '../public/clear.svg';
+            break;
+          case '01n':
+            favicon.href = '../public/night_clear.svg';
+            break;
+          case '02d':
+            favicon.href = '../public/day_partial_cloud.svg';
+            break;
+          case '02n':
+            favicon.href = '../public/night_partial_cloud.svg';
+            break;
+          case '03d':
+            favicon.href = '../public/overcast.svg';
+            break;
+          case '03n':
+            favicon.href = '../public/overcast.svg';
+            break;
+          case '04d':
+            favicon.href = '../public/day_partial_cloud.svg';
+            break;
+          case '04n':
+            favicon.href = '../public/night_partial_cloud.svg';
+            break;
+          case '09d':
+            favicon.href = '../public/day_rain.svg';
+            break;
+          case '09n':
+            favicon.href = '../public/night_rain.svg';
+            break;
+          case '10d':
+            favicon.href = '../public/day_rain.svg';
+            break;
+          case '10n':
+            favicon.href = '../public/night_rain.svg';
+            break;
+          case '11d':
+            favicon.href = '../public/day_rain_thunder.svg';
+            break;
+          case '11n':
+            favicon.href = '../public/night_thunder.svg';
+            break;
+          case '13d':
+            favicon.href = '../public/snow.svg';
+            break;
+          case '13n':
+            favicon.href = '../public/snow.svg';
+            break;
+          case '50d':
+            favicon.href = '../public/mist.svg';
+            break;
+          case '50n':
+            favicon.href = '../public/mist.svg';
+            break;
+          default:
+            favicon.href = '../public/clear.svg';
+        }
         result.data.list.map((cur, i) => {
           if (i % 8 === 0) {
             //current!!! weather time of each day
             weather7Days.push(cur);
+            // console.log(result);
 
-            let favicon = document.querySelector('#forecast');
-
-            switch (result.data.list[0].weather[0].icon) {
-              case '01d':
-                favicon.href = '../public/clear.svg';
-                break;
-              case '01n':
-                favicon.href = '../public/night_clear.svg';
-                break;
-              case '02d':
-                favicon.href = '../public/day_partial_cloud.svg';
-                break;
-              case '02n':
-                favicon.href = '../public/night_partial_cloud.svg';
-                break;
-              case '03d':
-                favicon.href = '../public/overcast.svg';
-                break;
-              case '03n':
-                favicon.href = '../public/overcast.svg';
-                break;
-              case '04d':
-                favicon.href = '../public/day_partial_cloud.svg';
-                break;
-              case '04n':
-                favicon.href = '../public/night_partial_cloud.svg';
-                break;
-              case '09d':
-                favicon.href = '../public/day_rain.svg';
-                break;
-              case '09n':
-                favicon.href = '../public/night_rain.svg';
-                break;
-              case '10d':
-                favicon.href = '../public/day_rain.svg';
-                break;
-              case '10n':
-                favicon.href = '../public/night_rain.svg';
-                break;
-              case '11d':
-                favicon.href = '../public/day_rain_thunder.svg';
-                break;
-              case '11n':
-                favicon.href = '../public/night_thunder.svg';
-                break;
-              case '13d':
-                favicon.href = '../public/snow.svg';
-                break;
-              case '13n':
-                favicon.href = '../public/snow.svg';
-                break;
-              case '50d':
-                favicon.href = '../public/mist.svg';
-                break;
-              case '50n':
-                favicon.href = '../public/mist.svg';
-                break;
-              default:
-                favicon.href = '../public/clear.svg';
-            }
           }
         });
         this.setState({ weatherArr: weather7Days, city: location, isLoading: false });
@@ -160,7 +161,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.weatherArr);
     let today = this.state.weatherArr.map((cur, i) => {
       let d = new Date(cur.dt_txt);
       let day = d.getDay();
