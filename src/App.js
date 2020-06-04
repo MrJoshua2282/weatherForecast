@@ -63,61 +63,61 @@ class App extends Component {
         console.log(result.data.list[0].weather[0].icon);
         switch (result.data.list[0].weather[0].icon) {
           case '01d':
-            favicon.href = '../public/clear.svg';
+            favicon.href = 'clear.svg';
             break;
           case '01n':
-            favicon.href = '../public/night_clear.svg';
+            favicon.href = 'night_clear.svg';
             break;
           case '02d':
-            favicon.href = '../public/day_partial_cloud.svg';
+            favicon.href = 'day_partial_cloud.svg';
             break;
           case '02n':
-            favicon.href = '../public/night_partial_cloud.svg';
+            favicon.href = 'night_partial_cloud.svg';
             break;
           case '03d':
-            favicon.href = '../public/overcast.svg';
+            favicon.href = 'overcast.svg';
             break;
           case '03n':
-            favicon.href = '../public/overcast.svg';
+            favicon.href = 'overcast.svg';
             break;
           case '04d':
-            favicon.href = '../public/day_partial_cloud.svg';
+            favicon.href = 'day_partial_cloud.svg';
             break;
           case '04n':
-            favicon.href = '../public/night_partial_cloud.svg';
+            favicon.href = 'night_partial_cloud.svg';
             break;
           case '09d':
-            favicon.href = '../public/day_rain.svg';
+            favicon.href = 'day_rain.svg';
             break;
           case '09n':
-            favicon.href = '../public/night_rain.svg';
+            favicon.href = 'night_rain.svg';
             break;
           case '10d':
-            favicon.href = '../public/day_rain.svg';
+            favicon.href = 'day_rain.svg';
             break;
           case '10n':
-            favicon.href = '../public/night_rain.svg';
+            favicon.href = 'night_rain.svg';
             break;
           case '11d':
-            favicon.href = '../public/day_rain_thunder.svg';
+            favicon.href = 'day_rain_thunder.svg';
             break;
           case '11n':
-            favicon.href = '../public/night_thunder.svg';
+            favicon.href = 'night_thunder.svg';
             break;
           case '13d':
-            favicon.href = '../public/snow.svg';
+            favicon.href = 'snow.svg';
             break;
           case '13n':
-            favicon.href = '../public/snow.svg';
+            favicon.href = 'snow.svg';
             break;
           case '50d':
-            favicon.href = '../public/mist.svg';
+            favicon.href = 'mist.svg';
             break;
           case '50n':
-            favicon.href = '../public/mist.svg';
+            favicon.href = 'mist.svg';
             break;
           default:
-            favicon.href = '../public/clear.svg';
+            favicon.href = 'clear.svg';
         }
         result.data.list.map((cur, i) => {
           if (i % 8 === 0) {
