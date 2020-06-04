@@ -48,26 +48,88 @@ class App extends Component {
   }
 
   getData = () => {
-    this.setState({isLoading: true});
-    //5 day forcast
+    this.setState({ isLoading: true });
+    //5 day forecast
     //`http://api.openweathermap.org/data/2.5/forecast?zip={zip code},{country code}&appid={your api key}`
 
     let key = '39ff9355af7fb6c4e1f585a76ac2282d';
 
     axios.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?zip=${this.state.zip}&appid=${key}&units=${this.state.degrees}`)
       .then(result => {
-        let weather7Days = []; 
+        let weather7Days = [];
         let city = result.data.city.name;
         let location = city;
-
         result.data.list.map((cur, i) => {
-          if (i % 8 === 0) {weather7Days.push(cur);
+          if (i % 8 === 0) {
+            //current!!! weather time of each day
+            weather7Days.push(cur);
+
+            let favicon = document.querySelector('#forecast');
+
+            switch (result.data.list[0].weather[0].icon) {
+              case '01d':
+                favicon.href = '../public/clear.svg';
+                break;
+              case '01n':
+                favicon.href = '../public/night_clear.svg';
+                break;
+              case '02d':
+                favicon.href = '../public/day_partial_cloud.svg';
+                break;
+              case '02n':
+                favicon.href = '../public/night_partial_cloud.svg';
+                break;
+              case '03d':
+                favicon.href = '../public/overcast.svg';
+                break;
+              case '03n':
+                favicon.href = '../public/overcast.svg';
+                break;
+              case '04d':
+                favicon.href = '../public/day_partial_cloud.svg';
+                break;
+              case '04n':
+                favicon.href = '../public/night_partial_cloud.svg';
+                break;
+              case '09d':
+                favicon.href = '../public/day_rain.svg';
+                break;
+              case '09n':
+                favicon.href = '../public/night_rain.svg';
+                break;
+              case '10d':
+                favicon.href = '../public/day_rain.svg';
+                break;
+              case '10n':
+                favicon.href = '../public/night_rain.svg';
+                break;
+              case '11d':
+                favicon.href = '../public/day_rain_thunder.svg';
+                break;
+              case '11n':
+                favicon.href = '../public/night_thunder.svg';
+                break;
+              case '13d':
+                favicon.href = '../public/snow.svg';
+                break;
+              case '13n':
+                favicon.href = '../public/snow.svg';
+                break;
+              case '50d':
+                favicon.href = '../public/mist.svg';
+                break;
+              case '50n':
+                favicon.href = '../public/mist.svg';
+                break;
+              default:
+                favicon.href = '../public/clear.svg';
+            }
           }
         });
-        this.setState({ weatherArr: weather7Days, city: location, isLoading: false});
+        this.setState({ weatherArr: weather7Days, city: location, isLoading: false });
       }).catch(error => {
         // console.log(error);
-        this.setState({isLoading: false});
+        this.setState({ isLoading: false });
       })
   }
 
@@ -76,21 +138,21 @@ class App extends Component {
   }
 
   zipHandler = (event) => {
-    this.setState({zip:event.target.value});
+    this.setState({ zip: event.target.value });
   }
 
   submitZip = () => {
-    this.getData(); 
+    this.getData();
   }
 
   degConverter = (event) => {
-      event.target.value === 'Fahrenheit' ? this.setState({isF: true}) : this.setState({isF: false}); 
+    event.target.value === 'Fahrenheit' ? this.setState({ isF: true }) : this.setState({ isF: false });
   }
 
   convert = (degrees) => {
-      //if this.state.isF is false return Celsius
+    //if this.state.isF is false return Celsius
     if (!this.state.isF) {
-      return (degrees - 32) * (5/9);
+      return (degrees - 32) * (5 / 9);
     } else {
       // else return Fahrenheit
       return degrees;
@@ -98,10 +160,11 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.weatherArr);
     let today = this.state.weatherArr.map((cur, i) => {
       let d = new Date(cur.dt_txt);
       let day = d.getDay();
-      let arrDays = ['Sunday', 'Monday', 'Tuesday', 'Wendesday', 'Thursday', 'Friday', 'Saturday'];
+      let arrDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       day = arrDays[day];
       let date = d.getDate();
       let month = d.getMonth();
@@ -130,7 +193,7 @@ class App extends Component {
               <img className='icon-today' src={icons[cur.weather[0].icon]} alt='weather display'></img>
             </span>
             <span className='topBoxThree'>
-              <div className='textToday'>Current Tempurature: {Math.round(this.convert(cur.main.temp))}&#176;</div>
+              <div className='textToday'>Current Temperature: {Math.round(this.convert(cur.main.temp))}&#176;</div>
               <div className='textToday'>Feels like: {Math.round(this.convert(cur.main.feels_like))}&#176;</div>
               <div className='textToday'>Temp-max: {Math.round(this.convert(cur.main.temp_max))}&#176;</div>
               <div className='textToday'>Temp-min: {Math.round(this.convert(cur.main.temp_min))}&#176;</div>
@@ -143,11 +206,11 @@ class App extends Component {
     let nextDays = this.state.weatherArr.map((cur, i) => {
       let d = new Date(cur.dt_txt);
       let day = d.getDay();
-      let arrDays = ['Sunday', 'Monday', 'Tuesday', 'Wendesday', 'Thursday', 'Friday', 'Saturday'];
+      let arrDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       day = arrDays[day];
       if (i > 0) {
         return (
-          <div key={i} className='weather' id={`weather${i+1}`}>
+          <div key={i} className='weather' id={`weather${i + 1}`}>
             <img className='icon' src={icons[cur.weather[0].icon]} alt='weather display'></img>
             <span className='textWeather'>Forecast for {day}: {cur.weather[0].description}</span>
             <span className='textWeather'>Temp-max: {Math.round(this.convert(cur.main.temp_max))}&#176;</span>
@@ -163,10 +226,10 @@ class App extends Component {
     if (!this.state.isLoading) {
       loader = (
         <div className="App">
-           {today}
-        <section className='bottom'>
-        {nextDays}
-       </section>
+          {today}
+          <section className='bottom'>
+            {nextDays}
+          </section>
         </div>
       );
     }
